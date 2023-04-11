@@ -1,0 +1,219 @@
+
+este codigo no cambia los en los input de tipo text, txtCodpro, txtName,txtPrecio
+this.agregardatos = () => {
+      const codpro = document.getElementById("txtCodpro");
+      const nomPro = document.getElementById("txtName");
+      const precio = document.getElementById("txtPrecio");
+      const table = document.getElementById("tablapro")
+
+      table.addEventListener('click', (event) => {
+        // Verificar que se hizo clic en una fila y no en la tabla en sí
+        if (event.target.tagName === 'td') {
+          // Obtener los datos de la fila seleccionada
+          const filaSeleccionada = event.target.parentNode;
+          const celdas = filaSeleccionada.getElementsByTagName('td');
+          
+          // Asignar los valores de las celdas a los inputs de tipo texto
+          codpro.value = celdas[0].textContent;
+          nomPro.value = celdas[1].textContent;
+          precio.value = celdas[2].textContent;
+          console.log(codpro, nomPro, precio);
+          dialog.close(); // Cerrar el diálogo
+        }
+      });
+    } 
+
+<div class="container mb-1">
+      <label for="" >Codigo producto</label>
+      <input type="text" name="" id="txtCodpro">
+  </div>
+  <div class="container mb-1">
+    <label for="" class="form-label" >Producto</label>
+    <input type="text" name="" id="txtName">
+  </div>
+  <div class="container mb-1">
+      <label for="" >cantidad</label>
+      <input type="text" name="" id="txtCantidad">
+  </div>
+    <div class="container mb-1">
+      <label for="" >Precio $</label>
+      <input type="text" name="" id="txtPrecio">
+    </div>
+
+
+
+
+
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Tabla de productos</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <table class="table" id="tablapro">
+          <thead>
+            <tr>
+              <th>Código</th>
+              <th>Nombre</th>
+              <th>Precio</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>001</td>
+              <td>Producto 1</td>
+              <td>10.00</td>
+            </tr>
+            <tr>
+              <td>002</td>
+              <td>Producto 2</td>
+              <td>20.00</td>
+            </tr>
+            <tr>
+              <td>003</td>
+              <td>Producto 3</td>
+              <td>30.00</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="container mb-1">
+      <label for="" >Codigo producto</label>
+      <input type="text" name="" id="txtCodpro">
+  </div>
+  <div class="container mb-1">
+    <label for="" class="form-label" >Producto</label>
+    <input type="text" name="" id="txtName">
+  </div>
+  <div class="container mb-1">
+      <label for="" >cantidad</label>
+      <input type="text" name="" id="txtCantidad">
+  </div>
+    <div class="container mb-1">
+      <label for="" >Precio $</label>
+      <input type="text" name="" id="txtPrecio">
+    </div>
+
+
+
+genera un buscador en tiempo real para esta tabla utilizando js
+
+
+aqui esta el codigo completo
+<input type="text" id="buscador" placeholder="Buscar...">
+<table id="tabla" class="table table-stripped" >
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>Nombre</th>
+                <th>Apellido</th>
+                <th>Email</th>
+                <th>Telefono</th>
+                <th>Direccion</th>
+                <th>Opciones</th>
+              </tr>
+            </thead>
+            <tbody id="tbody">
+              <tr>
+                <td></td>
+              </tr>
+            </tbody>
+          </table>
+
+const input = document.querySelector('#buscador');
+input.addEventListener('input', actualizarTabla);
+
+function actualizarTabla() {
+  const valorBusqueda = this.value.toLowerCase().trim();
+
+  const filas = document.querySelectorAll('#tabla tbody tr');
+
+  filas.forEach(fila => {
+    const nombre = fila.querySelector('td:nth-child(2)').textContent.toLowerCase();
+    const apellido = fila.querySelector('td:nth-child(3)').textContent.toLowerCase();
+    const email = fila.querySelector('td:nth-child(4)').textContent.toLowerCase();
+    const telefono = fila.querySelector('td:nth-child(5)').textContent.toLowerCase();
+    const direccion = fila.querySelector('td:nth-child(6)').textContent.toLowerCase();
+
+    const coincide = nombre.includes(valorBusqueda) || apellido.includes(valorBusqueda) || email.includes(valorBusqueda) || telefono.includes(valorBusqueda) || direccion.includes(valorBusqueda);
+
+    fila.style.display = coincide ? 'table-row' : 'none';
+  });
+}
+document.addEventListener('DOMContentLoaded', () => {
+  actualizarTabla();
+});
+
+cuando ejecuto este codigo me da este error SyntaxError: Unexpected token 'S', "SQLSTATE[4"... is not valid JSON
+this.listado = () => {
+      fetch(`http://localhost/Unotest/app/controllers/listadoProd.php`)
+        .then(response => JSON.stringify(response))
+        .then((data) => {
+          this.tbody.innerHTML = "";
+          data.forEach((item) => {
+            this.tbody.innerHTML += `
+              <tr>
+                <td>${item.cod_pro}</td>
+                <td>${item.nom_pro}</td>
+                <td>${item.des_pro}</td>
+                <td>${item.cant_exi}</td>
+                <td>${item.pre_uni}</td>
+                <td>${item.ubi_alm}</td>
+                <td>
+                  <a href="javascript:;" class="btn btn-warning btn-sm" onclick="app.editar(${item.cod_pro})">Editar</a>
+                  <a href="javascript:;" class="btn btn-danger btn-sm" onclick="app.eliminar(${item.cod_pro})">Eliminar</a>
+                </td>
+              </tr>
+            `;
+          });
+        })
+        .catch((error) => console.log(error));
+  };
+  listadoProd.php
+<?php
+header('Content-Type: application/json; charset=utf-8');
+
+require_once "../models/product.model.php";
+echo json_encode(Producto::mostrarDatos());
+?>
+
+<table id="tabla"class="table">
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>Nombre producto</th>
+                <th>Descripcion del producto</th>
+                <th>Cantidad existente</th>
+                <th>Precio unidad</th>
+                <th>Ubicacion almacen</th>
+                <th>Opciones</th>
+              </tr>
+            </thead>
+            <tbody id="tbody"></tbody>
+          </table>
+
+
+`
+              <tr>
+              <td>${item.cod_pro}</td>
+              <td>${item.nom_pro}</td>
+              <td>${item.des_pro}</td>
+              <td>${item.cant_exi}</td>
+              <td>${item.pre_uni}</td>
+              <td>${item.ubi_alm}</td>
+              <td>
+                <a href="javascript:;" class="btn btn-warning btn-sm" onclick="app.editar(${item.cod_pro})">Editar</a>
+                <a href="javascript:;" class="btn btn-danger btn-sm" onclick="app.eliminar(${item.cod_pro})">Eliminar</a>
+              </td>
+            </tr>
+          `
+
